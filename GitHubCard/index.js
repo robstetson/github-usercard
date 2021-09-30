@@ -3,7 +3,87 @@
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+import axios from 'axios'
+axios.get('https://api.github.com/users/robstetson')
+.then((response) => {
+  const container = document.querySelector('.cards');
+  container.appendChild(gitHubCard(response.data));
+for(let i = 0; i < followersArray.length; i++){
+  axios.get(`https://api.github.com/users/${followersArray[i]}`).then((response )=>{
+    container.appendChild(gitHubCard(response.data))
+  })
+}
 
+
+
+})
+const followersArray = [ 
+  'robstetson',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell'
+]
+followersArray.map(function (user){
+  axios.get('https://api.github.com/users/' + [user]).then((response)=> {
+    const cardDiv = gitHubCard(response);
+    const cardTing = document.querySelector('.cards');
+    cardTing.appendChild(cardDiv);
+  })
+
+.catch(error => {
+  console.log(error);
+})
+});
+
+
+
+function gitHubCard(object){
+  const div1 = document.createElement('div');
+  const img = document.createElement('img');
+  const div2 = document.createElement('div');
+  const h3 = document.createElement('h3');
+  const username = document.createElement('p');
+  const location = document.createElement('p');
+  const profile = document.createElement('p');
+  const link = document.createElement('a');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
+  
+  
+  div1.classList.add('card');
+  div2.classList.add('card-info');
+  h3.classList.add('name');
+  username.classList.add('username');
+  
+  div1.appendChild(img); 
+  div1.appendChild(div2);
+  div2.appendChild(h3);
+  div2.appendChild(username);
+  div2.appendChild(location);
+  div2.appendChild(profile);
+  profile.appendChild(link);
+  div2.appendChild(followers);
+  div2.appendChild(following);
+  div2.appendChild(bio);
+  
+  img.src = object.data.avatar_url;
+  h3.textContent = object.data.name;
+  username.textContent = object.login;
+  location.textContent = object.data.location;
+  link.href = object.data.html_url;
+  followers.textContent= object.data.followers;
+  following.textContent= object.data.following;
+  bio.textContent= object.data.bio;
+  
+  
+  
+  
+  return div1
+  
+  }
+  
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -28,12 +108,18 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
     Using DOM methods and properties, create and return the following markup:
-
+// img src = avarar_url
+// h3 = name
+// location = location
+// a href = https://github.com/robstetson
+// followers = followers
+//following = following
+//
     <div class="card">
       <img src={image url of user} />
       <div class="card-info">
@@ -49,6 +135,7 @@ const followersArray = [];
       </div>
     </div>
 */
+ 
 
 /*
   List of LS Instructors Github username's:
